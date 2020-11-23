@@ -1,10 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 254b1c8ef526323678ae1f8ddf0d0b2126fd1cb4
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
