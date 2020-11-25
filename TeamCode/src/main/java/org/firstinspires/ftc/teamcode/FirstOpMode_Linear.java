@@ -73,8 +73,8 @@ public class FirstOpMode_Linear extends LinearOpMode {
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        shooterFrontMotor.setDirection(DcMotor.Direction.FORWARD);
-        shooterBackMotor.setDirection(DcMotor.Direction.FORWARD);
+        shooterFrontMotor.setDirection(DcMotor.Direction.REVERSE);
+        shooterBackMotor.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -94,7 +94,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
             // - This uses basic math to combine motions and is easier to drive straight.
             double shoot = gamepad1.left_stick_y;
             //double turn  =  gamepad1.right_stick_x;
-            shootPower    = Range.clip(shoot, -1.0, 1.0) ;
+            shootPower    = Range.clip(shoot, -1.0, 2.0) ;
             //rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
             // Tank Mode uses one stick to control each wheel.

@@ -51,6 +51,9 @@ public class Hardware{
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
 
+        shooterFrontMotor.setDirection(DcMotor.Direction.REVERSE);
+        shooterBackMotor.setDirection(DcMotor.Direction.REVERSE);
+
         //Set Motor Mode  (For now we will run it without an encoder, but when we do stop_and_reset_encoder for each motor and then run_using_encoder for each motor)
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
