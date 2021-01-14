@@ -143,6 +143,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
                   idle();
              }
             liftMotor.setPower(0.0);
+              liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
           }
           if(gamepad2.y) {
               liftMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -159,6 +160,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
               }
               liftMotor.setPower(0.0);
               liftMotor.setDirection(DcMotor.Direction.REVERSE);
+              liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
           }
             // Send calculated power to wheels
             shooterMotor.setPower(shootPower);
