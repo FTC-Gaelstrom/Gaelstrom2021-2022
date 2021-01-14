@@ -130,7 +130,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
             // leftPower  = -gamepad1.left_stick_y ;
             // rightPower = -gamepad1.right_stick_y ;
 
-          if(gamepad2.y) {
+          if(gamepad2.a) {
              liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             liftMotor.setTargetPosition(2806);
             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -144,7 +144,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
              }
             liftMotor.setPower(0.0);
           }
-          if(gamepad2.a) {
+          if(gamepad2.y) {
               liftMotor.setDirection(DcMotor.Direction.FORWARD);
               liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
               liftMotor.setTargetPosition(2806);
