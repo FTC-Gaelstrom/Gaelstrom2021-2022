@@ -90,7 +90,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -130,11 +130,34 @@ public class FirstOpMode_Linear extends LinearOpMode {
             // leftPower  = -gamepad1.left_stick_y ;
             // rightPower = -gamepad1.right_stick_y ;
 
-          // if(gamepad1.a) {
-        //    liftMotor.setTargetPosition();
+          if(gamepad2.y) {
+             liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            liftMotor.setTargetPosition(2806);
+            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        //   }
+            liftMotor.setPower(0.5);
+              while(opModeIsActive() && liftMotor.getCurrentPosition() < liftMotor.getTargetPosition())
+              {
+                  telemetry.addData("encoder-liftmotor", liftMotor.getCurrentPosition());
+                  telemetry.update();
+                  idle();
+             }
+            liftMotor.setPower(0.0);
+          }
+          if(gamepad2.a) {
+              liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+              liftMotor.setTargetPosition(-2806);
+              liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+              liftMotor.setPower(0.5);
+              while(opModeIsActive() && liftMotor.getCurrentPosition() < liftMotor.getTargetPosition())
+              {
+                  telemetry.addData("encoder-liftmotor", liftMotor.getCurrentPosition());
+                  telemetry.update();
+                  idle();
+              }
+              liftMotor.setPower(0.0);
+          }
             // Send calculated power to wheels
             shooterMotor.setPower(shootPower);
 
@@ -149,6 +172,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Shooter Motor", "shoot (%.2f)", shootPower);
             telemetry.addData("Lift Motor", "shoot (%.2f)", liftPower);
+            telemetry.addData("encoder-liftmotor",liftMotor.getCurrentPosition());
             telemetry.update();
         }
     }
