@@ -90,7 +90,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -135,7 +135,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
             liftMotor.setTargetPosition(2806);
             liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            liftMotor.setPower(0.5);
+            liftMotor.setPower(0.25);
               while(opModeIsActive() && liftMotor.getCurrentPosition() < liftMotor.getTargetPosition())
               {
                   telemetry.addData("encoder-liftmotor", liftMotor.getCurrentPosition());
@@ -145,11 +145,12 @@ public class FirstOpMode_Linear extends LinearOpMode {
             liftMotor.setPower(0.0);
           }
           if(gamepad2.a) {
+              liftMotor.setDirection(DcMotor.Direction.FORWARD);
               liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-              liftMotor.setTargetPosition(-2806);
+              liftMotor.setTargetPosition(2806);
               liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-              liftMotor.setPower(0.5);
+              liftMotor.setPower(0.25);
               while(opModeIsActive() && liftMotor.getCurrentPosition() < liftMotor.getTargetPosition())
               {
                   telemetry.addData("encoder-liftmotor", liftMotor.getCurrentPosition());
@@ -157,6 +158,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
                   idle();
               }
               liftMotor.setPower(0.0);
+              liftMotor.setDirection(DcMotor.Direction.REVERSE);
           }
             // Send calculated power to wheels
             shooterMotor.setPower(shootPower);
