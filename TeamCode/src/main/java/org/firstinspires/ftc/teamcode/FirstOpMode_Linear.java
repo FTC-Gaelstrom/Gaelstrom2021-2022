@@ -57,12 +57,12 @@ public class FirstOpMode_Linear extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor shooterFrontMotor = null;
-    private DcMotor shooterBackMotor = null;
+    private DcMotor shooterMotor = null;
     public DcMotor frontRightMotor = null;
     public DcMotor frontLeftMotor = null;
     public DcMotor backRightMotor = null;
     public DcMotor backLeftMotor = null;
+    public DcMotor liftMotor = null;
 
     @Override
     public void runOpMode() {
@@ -72,22 +72,24 @@ public class FirstOpMode_Linear extends LinearOpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        shooterFrontMotor  = hardwareMap.get(DcMotor.class, "shooterFrontMotor");
-        shooterBackMotor = hardwareMap.get(DcMotor.class, "shooterBackMotor");
+        shooterMotor  = hardwareMap.get(DcMotor.class, "shooterMotor");
         frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
         frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
         backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
+        liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
+
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        shooterFrontMotor.setDirection(DcMotor.Direction.REVERSE);
-        shooterBackMotor.setDirection(DcMotor.Direction.REVERSE);
+        shooterMotor.setDirection(DcMotor.Direction.REVERSE);
 
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -100,6 +102,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
             double shootPower;
             double rightPower;
             double leftPower;
+            double liftPower;
 
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
@@ -109,9 +112,11 @@ public class FirstOpMode_Linear extends LinearOpMode {
             double shoot = gamepad2.left_stick_y;
             double drive = -gamepad1.left_stick_y;
             double turn  =  gamepad1.right_stick_x;
-            shootPower    = Range.clip(shoot, -1.0, 2.0) ;
+            double lift = gamepad2.right_stick_y;
+            shootPower    = Range.clip(shoot, -1.0, 1.0) ;
             rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
             leftPower    = Range.clip(drive+turn, -1.0, 1.0);
+            liftPower    = Range.clip(lift,-1.0,1.0);
 
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
@@ -119,17 +124,19 @@ public class FirstOpMode_Linear extends LinearOpMode {
             // rightPower = -gamepad1.right_stick_y ;
 
             // Send calculated power to wheels
-            shooterFrontMotor.setPower(shootPower);
-            shooterBackMotor.setPower(shootPower);
+            shooterMotor.setPower(shootPower);
 
             frontRightMotor.setPower(rightPower);
             frontLeftMotor.setPower(leftPower);
             backRightMotor.setPower(rightPower);
             backLeftMotor.setPower(leftPower);
 
+            liftMotor.setPower(liftPower);
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "shoot (%.2f)", shootPower);
+            telemetry.addData("Shooter Motor", "shoot (%.2f)", shootPower);
+            telemetry.addData("Lift Motor", "shoot (%.2f)", liftPower);
             telemetry.update();
         }
     }

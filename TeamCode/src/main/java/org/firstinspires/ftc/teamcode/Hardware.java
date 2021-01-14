@@ -14,9 +14,11 @@ public class Hardware{
     public DcMotor backRightMotor = null;
     public DcMotor backLeftMotor = null;
 
-    //Create Shooter Motors
-    public DcMotor shooterFrontMotor = null;
-    public DcMotor shooterBackMotor = null;
+    //Create Shooter Motor
+    public DcMotor shooterMotor = null;
+
+    //Create Lift
+    public DcMotor liftMotor = null;
 
     //Create Loader Servo
     public Servo loaderServo = null;
@@ -38,10 +40,11 @@ public class Hardware{
         backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
 
-        //Connect Shooter Motors
-        shooterFrontMotor = hardwareMap.get(DcMotor.class,"shooterFrontMotor");
-        shooterBackMotor  = hardwareMap.get(DcMotor.class,"shooterBackMotor");
+        //Connect Shooter Motor
+        shooterMotor = hardwareMap.get(DcMotor.class,"shooterMotor");
 
+        //Connect Lift Motor
+        liftMotor = hardwareMap.get(DcMotor.class,"liftMotor");
         //Connect Loader Servo
         loaderServo = hardwareMap.get(Servo.class,"loaderServo");
 
@@ -51,8 +54,10 @@ public class Hardware{
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        shooterFrontMotor.setDirection(DcMotor.Direction.REVERSE);
-        shooterBackMotor.setDirection(DcMotor.Direction.REVERSE);
+        shooterMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);
+
 
         //Set Motor Mode  (For now we will run it without an encoder, but when we do stop_and_reset_encoder for each motor and then run_using_encoder for each motor)
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -60,23 +65,27 @@ public class Hardware{
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         //Set ZERO POWER BEHAVIOR for Drive Train as BRAKE so that the motors stop turning
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         //Set ZERO POWER BEHAVIOR for Shooters as FREESPIN so that the motor continue to spin freely
-        shooterFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        shooterBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         //Set Motors to use no power
         frontRightMotor.setPower(0);
         frontLeftMotor.setPower(0);
         backRightMotor.setPower(0);
         backLeftMotor.setPower(0);
-        shooterFrontMotor.setPower(0);
-        shooterBackMotor.setPower(0);
+        shooterMotor.setPower(0);
+        liftMotor.setPower(0);
+
 
 // I'm here!
 
