@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -89,19 +90,22 @@ public class FirstOpMode_Linear extends LinearOpMode {
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
 
-        liftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
             // Setup a variable for each drive wheel to save power level for telemetry
             double shootPower;
-            double rightPower;
-            double leftPower;
+            double frontRightPower;
+            double frontLeftPower;
+            double backRightPower;
+            double backLeftPower;
             double liftPower;
 
             // Choose to drive using either Tank Mode, or POV Mode
@@ -110,12 +114,15 @@ public class FirstOpMode_Linear extends LinearOpMode {
             // POV Mode uses left stick to go forward, and right stick to turn.
             // - This uses basic math to combine motions and is easier to drive straight.
             double shoot = gamepad2.left_stick_y;
-            double drive = -gamepad1.left_stick_y;
-            double turn  =  gamepad1.right_stick_x;
+            double y = -gamepad1.left_stick_y;
+            double x  =  gamepad1.left_stick_x*1.5;
+            double rx = gamepad1.right_stick_x;
             double lift = gamepad2.right_stick_y;
             shootPower    = Range.clip(shoot, -1.0, 1.0) ;
-            rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
-            leftPower    = Range.clip(drive+turn, -1.0, 1.0);
+            frontRightPower   = Range.clip(y - x-rx, -1.0, 1.0) ;
+            frontLeftPower    = Range.clip(y+x+rx, -1.0, 1.0);
+            backRightPower    = Range.clip(y+x-rx,-1.0,1.0);
+            backLeftPower     = Range.clip(y-x+rx,-1.0,1.0);
             liftPower    = Range.clip(lift,-1.0,1.0);
 
             // Tank Mode uses one stick to control each wheel.
@@ -123,13 +130,18 @@ public class FirstOpMode_Linear extends LinearOpMode {
             // leftPower  = -gamepad1.left_stick_y ;
             // rightPower = -gamepad1.right_stick_y ;
 
+          // if(gamepad1.a) {
+        //    liftMotor.setTargetPosition();
+
+        //   }
+
             // Send calculated power to wheels
             shooterMotor.setPower(shootPower);
 
-            frontRightMotor.setPower(rightPower);
-            frontLeftMotor.setPower(leftPower);
-            backRightMotor.setPower(rightPower);
-            backLeftMotor.setPower(leftPower);
+            frontRightMotor.setPower(frontRightPower);
+            frontLeftMotor.setPower(frontLeftPower);
+            backRightMotor.setPower(backRightPower);
+            backLeftMotor.setPower(backLeftPower);
 
             liftMotor.setPower(liftPower);
 
