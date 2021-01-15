@@ -29,12 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -55,42 +52,19 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="Basic: First Linear OpMode", group="Linear Opmode")
 //@Disabled
 public class FirstOpMode_Linear extends LinearOpMode {
+    MSJHardware robot   = new MSJHardware();
 
-    // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor shooterMotor = null;
-    public DcMotor frontRightMotor = null;
-    public DcMotor frontLeftMotor = null;
-    public DcMotor backRightMotor = null;
-    public DcMotor backLeftMotor = null;
-    public DcMotor liftMotor = null;
+
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
-        shooterMotor  = hardwareMap.get(DcMotor.class, "shooterMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
-        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
-        liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
-
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        shooterMotor.setDirection(DcMotor.Direction.REVERSE);
-
-        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
-        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
-
-        liftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -130,53 +104,52 @@ public class FirstOpMode_Linear extends LinearOpMode {
             // leftPower  = -gamepad1.left_stick_y ;
             // rightPower = -gamepad1.right_stick_y ;
 
-          if(gamepad2.a) {
-             liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            liftMotor.setTargetPosition(2806);
-            liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            liftMotor.setPower(0.25);
-              while(opModeIsActive() && liftMotor.getCurrentPosition() < liftMotor.getTargetPosition())
+          if(gamepad2.dpad_down) {
+             robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+             robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+              robot. liftMotor.setTargetPosition(2806);
+              robot.liftMotor.setPower(0.5);
+              while(opModeIsActive() && robot.liftMotor.getCurrentPosition() < robot.liftMotor.getTargetPosition())
               {
-                  telemetry.addData("encoder-liftmotor", liftMotor.getCurrentPosition());
+                  telemetry.addData("encoder-liftmotor", robot.liftMotor.getCurrentPosition());
                   telemetry.update();
                   idle();
              }
-            liftMotor.setPower(0.0);
-              liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+              robot.liftMotor.setPower(0.0);
+              robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
           }
-          if(gamepad2.y) {
-              liftMotor.setDirection(DcMotor.Direction.FORWARD);
-              liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-              liftMotor.setTargetPosition(2806);
-              liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+          if(gamepad2.dpad_up) {
+              robot.liftMotor.setDirection(DcMotor.Direction.FORWARD);
+              robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+              robot.liftMotor.setTargetPosition(2806);
+              robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-              liftMotor.setPower(0.25);
-              while(opModeIsActive() && liftMotor.getCurrentPosition() < liftMotor.getTargetPosition())
+              robot.liftMotor.setPower(0.5);
+              while(opModeIsActive() && robot.liftMotor.getCurrentPosition() < robot.liftMotor.getTargetPosition())
               {
-                  telemetry.addData("encoder-liftmotor", liftMotor.getCurrentPosition());
+                  telemetry.addData("encoder-liftmotor", robot.liftMotor.getCurrentPosition());
                   telemetry.update();
                   idle();
               }
-              liftMotor.setPower(0.0);
-              liftMotor.setDirection(DcMotor.Direction.REVERSE);
-              liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+              robot.liftMotor.setPower(0.0);
+              robot.liftMotor.setDirection(DcMotor.Direction.REVERSE);
+              robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
           }
             // Send calculated power to wheels
-            shooterMotor.setPower(shootPower);
+            robot.shooterMotor.setPower(shootPower);
 
-            frontRightMotor.setPower(frontRightPower);
-            frontLeftMotor.setPower(frontLeftPower);
-            backRightMotor.setPower(backRightPower);
-            backLeftMotor.setPower(backLeftPower);
+            robot.frontRightMotor.setPower(frontRightPower);
+            robot.frontLeftMotor.setPower(frontLeftPower);
+            robot.backRightMotor.setPower(backRightPower);
+            robot.backLeftMotor.setPower(backLeftPower);
 
-            liftMotor.setPower(liftPower);
+            robot.liftMotor.setPower(liftPower);
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Shooter Motor", "shoot (%.2f)", shootPower);
             telemetry.addData("Lift Motor", "shoot (%.2f)", liftPower);
-            telemetry.addData("encoder-liftmotor",liftMotor.getCurrentPosition());
+            telemetry.addData("encoder-liftmotor",robot.liftMotor.getCurrentPosition());
             telemetry.update();
         }
     }

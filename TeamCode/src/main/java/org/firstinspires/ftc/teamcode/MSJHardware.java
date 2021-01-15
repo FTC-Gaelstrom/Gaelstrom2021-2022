@@ -7,7 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class Hardware{
+public class MSJHardware
+{
     //Create Drivetrain Motors
     public DcMotor frontRightMotor = null;
     public DcMotor frontLeftMotor = null;
@@ -24,29 +25,32 @@ public class Hardware{
     public Servo loaderServo = null;
 
     //Additional Variables
-    HardwareMap hardwareMap = null;
+    HardwareMap hwMap = null;
     public ElapsedTime runtime = new ElapsedTime();
+    public MSJHardware(){
 
-    public Hardware(HardwareMap hwMap) {
-        initialize(hwMap);
     }
+   // public MSJHardware(HardwareMap ahwMap) {
 
-    private void initialize(HardwareMap hwMap){
-        hardwareMap = hwMap;
+    //    initialize(ahwMap);
+   // }
+
+    public void init(HardwareMap ahwMap){
+        hwMap = ahwMap;
 
         //Connect Drive Train Motors
-        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
-        frontLeftMotor = hardwareMap.get(DcMotor.class,"frontLeftMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class,"backRightMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class,"backLeftMotor");
+        frontRightMotor = hwMap.get(DcMotor.class, "frontRightMotor");
+        frontLeftMotor = hwMap.get(DcMotor.class,"frontLeftMotor");
+        backRightMotor = hwMap.get(DcMotor.class,"backRightMotor");
+        backLeftMotor = hwMap.get(DcMotor.class,"backLeftMotor");
 
         //Connect Shooter Motor
-        shooterMotor = hardwareMap.get(DcMotor.class,"shooterMotor");
+        shooterMotor = hwMap.get(DcMotor.class,"shooterMotor");
 
         //Connect Lift Motor
-        liftMotor = hardwareMap.get(DcMotor.class,"liftMotor");
+        liftMotor = hwMap.get(DcMotor.class,"liftMotor");
         //Connect Loader Servo
-        loaderServo = hardwareMap.get(Servo.class,"loaderServo");
+        loaderServo = hwMap.get(Servo.class,"loaderServo");
 
         //Set Up Motor Direction
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
