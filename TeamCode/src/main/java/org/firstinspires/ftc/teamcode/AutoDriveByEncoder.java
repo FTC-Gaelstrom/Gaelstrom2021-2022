@@ -66,8 +66,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class AutoDriveByEncoder extends LinearOpMode {
 
     /* Declare OpMode members. */
-    //Hardware robot   = new Hardware();   // Use our hardware
-    MSJHardware robot = new MSJHardware();
+
+    MSJHardware robot = new MSJHardware(); // Use our hardware
 
     private ElapsedTime     runtime = new ElapsedTime();
 
@@ -94,14 +94,22 @@ public class AutoDriveByEncoder extends LinearOpMode {
 
         robot.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
                           robot.frontLeftMotor.getCurrentPosition(),
-                          robot.frontRightMotor.getCurrentPosition());
+                          robot.frontRightMotor.getCurrentPosition(),
+                          robot.backLeftMotor.getCurrentPosition(),
+                robot.backRightMotor.getCurrentPosition()
+        );
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)

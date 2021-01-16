@@ -103,7 +103,22 @@ public class FirstOpMode_Linear extends LinearOpMode {
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
             // leftPower  = -gamepad1.left_stick_y ;
             // rightPower = -gamepad1.right_stick_y ;
-
+            if(gamepad2.dpad_up) {
+                robot.liftMotor.setDirection(DcMotor.Direction.FORWARD);
+                robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.liftMotor.setTargetPosition(2806);
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.liftMotor.setPower(0.5);
+                while(opModeIsActive() && robot.liftMotor.getCurrentPosition() < robot.liftMotor.getTargetPosition())
+                {
+                    telemetry.addData("encoder-liftmotor", robot.liftMotor.getCurrentPosition());
+                    telemetry.update();
+                    idle();
+                }
+                robot.liftMotor.setPower(0.0);
+                robot.liftMotor.setDirection(DcMotor.Direction.REVERSE);
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
           if(gamepad2.dpad_down) {
              robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
              robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -118,23 +133,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
               robot.liftMotor.setPower(0.0);
               robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
           }
-          if(gamepad2.dpad_up) {
-              robot.liftMotor.setDirection(DcMotor.Direction.FORWARD);
-              robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-              robot.liftMotor.setTargetPosition(2806);
-              robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-              robot.liftMotor.setPower(0.5);
-              while(opModeIsActive() && robot.liftMotor.getCurrentPosition() < robot.liftMotor.getTargetPosition())
-              {
-                  telemetry.addData("encoder-liftmotor", robot.liftMotor.getCurrentPosition());
-                  telemetry.update();
-                  idle();
-              }
-              robot.liftMotor.setPower(0.0);
-              robot.liftMotor.setDirection(DcMotor.Direction.REVERSE);
-              robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-          }
             // Send calculated power to wheels
             robot.shooterMotor.setPower(shootPower);
 
