@@ -52,6 +52,7 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="Basic: First Linear OpMode", group="Linear Opmode")
 //@Disabled
 public class FirstOpMode_Linear extends LinearOpMode {
+
     MSJHardware robot   = new MSJHardware();
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -59,6 +60,9 @@ public class FirstOpMode_Linear extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
+        robot.init(hardwareMap);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -92,7 +96,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
             double x  =  gamepad1.left_stick_x*1.5;
             double rx = gamepad1.right_stick_x;
             double lift = gamepad2.right_stick_y;
-            shootPower    = Range.clip(shoot, -1.0, 1.0) ;
+          shootPower    = Range.clip(shoot, -1.0, 1.0) ;
             frontRightPower   = Range.clip(y - x-rx, -1.0, 1.0) ;
             frontLeftPower    = Range.clip(y+x+rx, -1.0, 1.0);
             backRightPower    = Range.clip(y+x-rx,-1.0,1.0);
@@ -133,6 +137,25 @@ public class FirstOpMode_Linear extends LinearOpMode {
               robot.liftMotor.setPower(0.0);
               robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
           }
+
+         if(gamepad2.right_bumper){
+              robot.intakeMotor.setPower(0.5);
+          }
+
+         if(gamepad2.left_bumper){
+              robot.intakeMotor.setPower(0.0);
+          }
+
+
+         if(gamepad2.y){
+              robot.loaderMotor.setPower(0.5);
+          }
+
+          if(gamepad2.a){
+              robot.loaderMotor.setPower(0.0);
+          }
+
+
 
             // Send calculated power to wheels
             robot.shooterMotor.setPower(shootPower);

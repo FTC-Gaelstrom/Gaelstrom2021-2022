@@ -15,14 +15,19 @@ public class MSJHardware
     public DcMotor backRightMotor = null;
     public DcMotor backLeftMotor = null;
 
+
     //Create Shooter Motor
     public DcMotor shooterMotor = null;
 
     //Create Lift
     public DcMotor liftMotor = null;
 
-    //Create Loader Servo
-    public Servo loaderServo = null;
+    //Create Intake dropper Servo
+    public Servo dropperServo = null;
+
+    //Intake system motors
+    public DcMotor intakeMotor = null;
+    public DcMotor loaderMotor = null;
 
     //Additional Variables
     HardwareMap hwMap = null;
@@ -49,8 +54,14 @@ public class MSJHardware
 
         //Connect Lift Motor
         liftMotor = hwMap.get(DcMotor.class,"liftMotor");
-        //Connect Loader Servo
-        loaderServo = hwMap.get(Servo.class,"loaderServo");
+        //Connect Intake dropper Servo
+        //dropperServo = hwMap.get(Servo.class,"dropperServo");
+
+        //Connect intake Motors
+        intakeMotor = hwMap.get(DcMotor.class, "intakeMotor");
+        loaderMotor = hwMap.get(DcMotor.class, "loaderMotor");
+
+
 
         //Set Up Motor Direction
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -61,6 +72,9 @@ public class MSJHardware
         shooterMotor.setDirection(DcMotor.Direction.REVERSE);
 
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+        loaderMotor.setDirection(DcMotor.Direction.FORWARD);
 
 
         //Set Motor Mode  (For now we will run it without an encoder, but when we do stop_and_reset_encoder for each motor and then run_using_encoder for each motor)
@@ -73,6 +87,9 @@ public class MSJHardware
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
       //  liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        loaderMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         //Set ZERO POWER BEHAVIOR for Drive Train as BRAKE so that the motors stop turning
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -80,6 +97,9 @@ public class MSJHardware
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        loaderMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Set ZERO POWER BEHAVIOR for Shooters as FREESPIN so that the motor continue to spin freely
         shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -91,6 +111,8 @@ public class MSJHardware
         backLeftMotor.setPower(0);
         shooterMotor.setPower(0);
         liftMotor.setPower(0);
+        intakeMotor.setPower(0);
+        loaderMotor.setPower(0);
 
 
 // I'm here!
