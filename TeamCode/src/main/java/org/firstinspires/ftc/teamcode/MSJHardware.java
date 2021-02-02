@@ -74,7 +74,7 @@ public class MSJHardware
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
 
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
-        loaderMotor.setDirection(DcMotor.Direction.FORWARD);
+        loaderMotor.setDirection(DcMotor.Direction.REVERSE);
 
 
         //Set Motor Mode  (For now we will run it without an encoder, but when we do stop_and_reset_encoder for each motor and then run_using_encoder for each motor)
