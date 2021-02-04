@@ -55,7 +55,7 @@ public class MSJHardware
         //Connect Lift Motor
         liftMotor = hwMap.get(DcMotor.class,"liftMotor");
         //Connect Intake dropper Servo
-        //dropperServo = hwMap.get(Servo.class,"dropperServo");
+        dropperServo = hwMap.get(Servo.class,"dropperServo");
 
         //Connect intake Motors
         intakeMotor = hwMap.get(DcMotor.class, "intakeMotor");
@@ -113,6 +113,8 @@ public class MSJHardware
         liftMotor.setPower(0);
         intakeMotor.setPower(0);
         loaderMotor.setPower(0);
+
+        dropperServo.setPosition(.1);
 
 
 // I'm here!
