@@ -96,7 +96,18 @@ public class FirstOpMode_Linear extends LinearOpMode {
             double x  =  gamepad1.left_stick_x*1.5;
             double rx = gamepad1.right_stick_x;
             double lift = gamepad2.right_stick_y;
-          shootPower    = Range.clip(shoot, -1.0, 1.0) ;
+
+            if(gamepad1.left_bumper){
+                y*=0.25;
+                x*=0.25;
+                rx*=0.25;
+            }
+
+
+
+
+
+            shootPower    = Range.clip(shoot, -1.0, 1.0) ;
             frontRightPower   = Range.clip(y - x-rx, -1.0, 1.0) ;
             frontLeftPower    = Range.clip(y+x+rx, -1.0, 1.0);
             backRightPower    = Range.clip(y+x-rx,-1.0,1.0);
@@ -148,12 +159,14 @@ public class FirstOpMode_Linear extends LinearOpMode {
 
 
          if(gamepad2.y){
-              robot.loaderMotor.setPower(0.5);
+              robot.loaderMotor.setPower(0.3);
           }
 
           if(gamepad2.a){
               robot.loaderMotor.setPower(0.0);
           }
+
+
 
 
 
@@ -170,8 +183,12 @@ public class FirstOpMode_Linear extends LinearOpMode {
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Shooter Motor", "shoot (%.2f)", shootPower);
-            telemetry.addData("Lift Motor", "shoot (%.2f)", liftPower);
+            telemetry.addData("Lift Motor", "lift (%.2f)", liftPower);
             telemetry.addData("encoder-liftmotor",robot.liftMotor.getCurrentPosition());
+            telemetry.addData("Front Right Motor", "frontRightMotor", y);
+            telemetry.addData("Front Left Motor", "frontLeftMotor", x);
+            telemetry.addData("Back Right Motor", "frontLeftMotor", rx);
+            telemetry.addData("Front Left Motor", "backLeftMotor", backLeftPower);
             telemetry.update();
         }
     }
