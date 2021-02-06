@@ -78,6 +78,8 @@ public class FirstOpMode_Linear extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            robot.dropperServo.setPosition(.1);
+
             // Setup a variable for each drive wheel to save power level for telemetry
             double shootPower;
             double frontRightPower;
@@ -108,10 +110,10 @@ public class FirstOpMode_Linear extends LinearOpMode {
 
 
             shootPower    = Range.clip(shoot, -1.0, 1.0) ;
-            frontRightPower   = Range.clip(y - x-rx, -1.0, 1.0) ;
-            frontLeftPower    = Range.clip(y+x+rx, -1.0, 1.0);
-            backRightPower    = Range.clip(y+x-rx,-1.0,1.0);
-            backLeftPower     = Range.clip(y-x+rx,-1.0,1.0);
+            frontRightPower   = Range.clip(y - x-rx, -.8, .8);
+            frontLeftPower    = Range.clip(y+x+rx, -.8, .8);
+            backRightPower    = Range.clip(y+x-rx,-.8,.8);
+            backLeftPower     = Range.clip(y-x+rx,-.8,.8);
             liftPower    = Range.clip(lift,-1.0,1.0);
 
             // Tank Mode uses one stick to control each wheel.

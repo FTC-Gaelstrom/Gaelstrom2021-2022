@@ -98,10 +98,14 @@ public class AutoDriveByEncoder extends LinearOpMode {
         robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
 
 
 
@@ -123,10 +127,27 @@ public class AutoDriveByEncoder extends LinearOpMode {
 
       //  sleep(15000);
 
+        robot.liftMotor.setTargetPosition(-7014);
+        robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftMotor.setPower(.75);
+
+        while (opModeIsActive() && robot.liftMotor.isBusy() ) {
+
+            // Display it for the driver.
+            telemetry.addData("Path1",  "Running to %7d", -7014);
+            telemetry.addData("Path2",  "Running at %7d",
+                    robot.liftMotor.getCurrentPosition());
+            telemetry.update();
+        }
+
+        robot.liftMotor.setPower(0);
+
         encoderStrafe(DRIVE_SPEED,  24,  -24, 5.0);  // S1: Strafe 24 Inches with 5 Sec timeout
 
-        encoderDrive(DRIVE_SPEED, 24, 24, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
-          encoderDrive(TURN_SPEED,   -12, 12, 4.0);  // S2: Turn Left 12 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 56, 56, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
+        encoderStrafe(DRIVE_SPEED,  -24,  24, 5.0);  // S1: Strafe 24 Inches with 5 Sec timeout
+          encoderDrive(TURN_SPEED,   16, -16, 4.0);  // S2: Turn Left 12 Inches with 4 Sec timeout
+
         robot.shooterMotor.setPower(-0.5);
         sleep(750);
         robot.shooterMotor.setPower(-1);
@@ -159,22 +180,33 @@ public class AutoDriveByEncoder extends LinearOpMode {
      */
 
     public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
+                             double leftInches1, double rightInches1,
                              double timeoutS) {
-        int newLeftTarget;
-        int newRightTarget;
+
+        robot.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        int newLeftTarget1;
+        int newRightTarget1;
 
         // Ensure that the opmode is still active
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot.frontLeftMotor.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = robot.frontRightMotor.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
+            newLeftTarget1 = robot.frontLeftMotor.getCurrentPosition() + (int)(leftInches1 * COUNTS_PER_INCH);
+            newRightTarget1 = robot.frontRightMotor.getCurrentPosition() + (int)(rightInches1 * COUNTS_PER_INCH);
 
-            robot.frontLeftMotor.setTargetPosition(newLeftTarget);
-            robot.frontRightMotor.setTargetPosition(newRightTarget);
-            robot.backLeftMotor.setTargetPosition(newLeftTarget);
-            robot.backRightMotor.setTargetPosition(newRightTarget);
+            robot.frontLeftMotor.setTargetPosition(newLeftTarget1);
+            robot.frontRightMotor.setTargetPosition(newRightTarget1);
+            robot.backLeftMotor.setTargetPosition(newLeftTarget1);
+            robot.backRightMotor.setTargetPosition(newRightTarget1);
 
             // Turn On RUN_TO_POSITION
             robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -200,7 +232,7 @@ public class AutoDriveByEncoder extends LinearOpMode {
                    (robot.frontLeftMotor.isBusy() && robot.frontRightMotor.isBusy())) {
 
                 // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
+                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget1,  newRightTarget1);
                 telemetry.addData("Path2",  "Running at %7d :%7d",
                                             robot.frontLeftMotor.getCurrentPosition(),
                                             robot.frontRightMotor.getCurrentPosition(),
@@ -230,6 +262,17 @@ public class AutoDriveByEncoder extends LinearOpMode {
     public void encoderStrafe(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {
+
+        robot.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         int newLeftTarget;
         int newRightTarget;
 

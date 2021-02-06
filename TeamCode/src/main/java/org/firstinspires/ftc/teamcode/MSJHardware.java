@@ -114,7 +114,7 @@ public class MSJHardware
         intakeMotor.setPower(0);
         loaderMotor.setPower(0);
 
-        dropperServo.setPosition(.1);
+
 
 
 // I'm here!
