@@ -30,10 +30,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * This file illustrates the concept of driving a path based on encoder counts.
@@ -62,9 +61,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Encoder1", group="Autonomous")
+@Autonomous(name="RedLeftSide", group="Autonomous")
 //@Disabled
-public class AutoDriveByEncoder extends LinearOpMode {
+public class RedLeftSide_Auto extends LinearOpMode {
 
     /* Declare OpMode members. */
 
@@ -125,34 +124,34 @@ public class AutoDriveByEncoder extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
 
-      //  sleep(15000);
+        sleep(5000);
 
-        robot.liftMotor.setTargetPosition(-7014);
+        robot.liftMotor.setTargetPosition(-6750);
         robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.liftMotor.setPower(.75);
 
         while (opModeIsActive() && robot.liftMotor.isBusy() ) {
 
             // Display it for the driver.
-            telemetry.addData("Path1",  "Running to %7d", -7014);
+            telemetry.addData("Path1",  "Running to %7d", -6750);
             telemetry.addData("Path2",  "Running at %7d",
                     robot.liftMotor.getCurrentPosition());
             telemetry.update();
         }
 
         robot.liftMotor.setPower(0);
-
-        encoderStrafe(DRIVE_SPEED,  24,  -24, 5.0);  // S1: Strafe 24 Inches with 5 Sec timeout
-
-        encoderDrive(DRIVE_SPEED, 56, 56, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 3, 3, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
         encoderStrafe(DRIVE_SPEED,  -24,  24, 5.0);  // S1: Strafe 24 Inches with 5 Sec timeout
-          encoderDrive(TURN_SPEED,   16, -16, 4.0);  // S2: Turn Left 12 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 56, 56, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
+        encoderStrafe(DRIVE_SPEED,  22,  -22, 5.0);  // S1: Strafe 24 Inches with 5 Sec timeout
+          encoderDrive(TURN_SPEED,   22, -22, 4.0);  // S2: Turn Left 12 Inches with 4 Sec timeout
 
         robot.shooterMotor.setPower(-0.5);
         sleep(750);
         robot.shooterMotor.setPower(-1);
+        sleep(3000);
         robot.loaderMotor.setPower(.3);
-        sleep(10000);
+        sleep(5000);
         robot.shooterMotor.setPower(0);
         robot.loaderMotor.setPower(0);
 
@@ -260,8 +259,8 @@ public class AutoDriveByEncoder extends LinearOpMode {
     }
 
     public void encoderStrafe(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS) {
+                              double leftInches, double rightInches,
+                              double timeoutS) {
 
         robot.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -342,4 +341,7 @@ public class AutoDriveByEncoder extends LinearOpMode {
             //testing computer at school
         }
     }
+
+
+
 }
