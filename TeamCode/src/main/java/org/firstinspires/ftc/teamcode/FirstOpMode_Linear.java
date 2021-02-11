@@ -88,6 +88,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
             double backLeftPower;
             double liftPower;
 
+
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
 
@@ -99,13 +100,24 @@ public class FirstOpMode_Linear extends LinearOpMode {
             double rx = gamepad1.right_stick_x;
             double lift = gamepad2.right_stick_y;
 
+
             if(gamepad1.left_bumper){
                 y*=0.25;
                 x*=0.25;
                 rx*=0.25;
             }
 
+            if(gamepad2.dpad_up){
+                robot.armMotor.setPower(0.25);
+            }
 
+            if(gamepad2.dpad_down){
+                robot.armMotor.setPower(-0.25);
+            }
+
+            if(gamepad2.dpad_left){
+                robot.armMotor.setPower(0.0);
+            }
 
 
 
@@ -115,6 +127,8 @@ public class FirstOpMode_Linear extends LinearOpMode {
             backRightPower    = Range.clip(y+x-rx,-.8,.8);
             backLeftPower     = Range.clip(y-x+rx,-.8,.8);
             liftPower    = Range.clip(lift,-1.0,1.0);
+
+
 
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
@@ -174,12 +188,14 @@ public class FirstOpMode_Linear extends LinearOpMode {
 
 
          if(gamepad2.y){
-              robot.loaderMotor.setPower(0.3);
+              robot.loaderServo.setPower(-0.5);
           }
 
           if(gamepad2.a){
-              robot.loaderMotor.setPower(0.0);
+              robot.loaderServo.setPower(0.0);
           }
+
+
 
 
 
@@ -194,6 +210,8 @@ public class FirstOpMode_Linear extends LinearOpMode {
             robot.backLeftMotor.setPower(backLeftPower);
 
             robot.liftMotor.setPower(liftPower);
+
+
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
