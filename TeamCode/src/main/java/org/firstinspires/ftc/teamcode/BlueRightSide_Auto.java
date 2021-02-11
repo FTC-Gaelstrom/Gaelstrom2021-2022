@@ -125,7 +125,7 @@ public class BlueRightSide_Auto extends LinearOpMode {
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
 
-        sleep(5000);
+        sleep(3000);
 
         robot.liftMotor.setTargetPosition(-6650);
         robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -150,6 +150,8 @@ public class BlueRightSide_Auto extends LinearOpMode {
         encoderStrafe(DRIVE_SPEED,  -22,  22, 5.0);  // S1: Strafe 24 Inches with 5 Sec timeout
           encoderDrive(TURN_SPEED,   14.5, -14.5, 4.0);  // S2: Turn Left 12 Inches with 4 Sec timeout
 
+
+
         robot.shooterMotor.setPower(-0.5);
         sleep(750);
         robot.shooterMotor.setPower(-1);
@@ -158,6 +160,8 @@ public class BlueRightSide_Auto extends LinearOpMode {
         sleep(5000);
         robot.shooterMotor.setPower(0);
         robot.loaderMotor.setPower(0);
+
+        encoderDrive(DRIVE_SPEED, 12, 12, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
 
       //  robot.leftClaw.setPosition(1.0);            // S4: Stop and close the claw.
         //robot.rightClaw.setPosition(0.0);
