@@ -92,8 +92,5 @@ public class MSJHardware
         shooterMotor.setPower(0);
         liftMotor.setPower(0);
 
-
-// I'm here!
-
     }
 }
