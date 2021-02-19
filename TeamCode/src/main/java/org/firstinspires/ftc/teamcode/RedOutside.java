@@ -115,8 +115,9 @@ public class RedOutside extends LinearOpMode {
 
       //  encoderDrive(DRIVE_SPEED, 3, 3, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
       //  encoderStrafe(DRIVE_SPEED,  24,  -24, 5.0);  // S1: Strafe 24 Inches with 5 Sec timeout
-        encoderDrive(DRIVE_SPEED, 56, 56, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 12, 12, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
         encoderStrafe(DRIVE_SPEED,  -35,  35, 5.0);  // S1: Strafe 24 Inches with 5 Sec timeout
+        encoderDrive(DRIVE_SPEED, 47, 47, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
         encoderDrive(TURN_SPEED,   18, -18, 4.0);  // S2: Turn Left 12 Inches with 4 Sec timeout
 
 
@@ -124,14 +125,16 @@ public class RedOutside extends LinearOpMode {
         robot.shooterMotor.setPower(-0.5);
         sleep(750);
         robot.shooterMotor.setPower(-1);
-        sleep(3000);
+        sleep(2000);
         robot.loaderServo.setPower(-.5);
         sleep(3000);
-        encoderDrive(DRIVE_SPEED-.2, 20, 20, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED-.3, -8, -8, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED-.3, -6, -6, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
+        sleep(1500);
         robot.shooterMotor.setPower(0);
         robot.loaderServo.setPower(0);
 
-        encoderDrive(DRIVE_SPEED, 12, 12, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
+        encoderStrafe(DRIVE_SPEED, -12, 12, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
 
         //  robot.leftClaw.setPosition(1.0);            // S4: Stop and close the claw.
         //robot.rightClaw.setPosition(0.0);

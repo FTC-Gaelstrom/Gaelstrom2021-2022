@@ -26,6 +26,7 @@ public class MSJHardware
     //Create Servos
     public Servo dropperServo = null;
     public CRServo loaderServo = null;
+    public Servo clawServo = null;
 
     //Intake system motor
     public DcMotor intakeMotor = null;
@@ -61,6 +62,7 @@ public class MSJHardware
         //Connect Servos
         dropperServo = hwMap.get(Servo.class,"dropperServo");
         loaderServo = hwMap.get(CRServo.class, "loaderServo");
+        clawServo = hwMap.get(Servo.class,"clawServo");
 
         //Connect intake Motors
         intakeMotor = hwMap.get(DcMotor.class, "intakeMotor");

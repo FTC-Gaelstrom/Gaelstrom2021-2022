@@ -87,6 +87,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
             double backRightPower;
             double backLeftPower;
             double liftPower;
+            double armPower;
 
 
             // Choose to drive using either Tank Mode, or POV Mode
@@ -99,6 +100,8 @@ public class FirstOpMode_Linear extends LinearOpMode {
             double x  =  gamepad1.left_stick_x*1.5;
             double rx = gamepad1.right_stick_x;
             double lift = gamepad2.right_stick_y;
+            double armup = gamepad2.left_trigger;
+            double armdown = gamepad2.right_trigger;
 
 
             if(gamepad1.left_bumper){
@@ -108,17 +111,14 @@ public class FirstOpMode_Linear extends LinearOpMode {
             }
 
             if(gamepad2.dpad_up){
-                robot.armMotor.setPower(0.25);
+                robot.clawServo.setPosition(0);
             }
 
             if(gamepad2.dpad_down){
-                robot.armMotor.setPower(-0.25);
+                robot.clawServo.setPosition(0.25);
             }
 
-            if(gamepad2.dpad_left){
-                robot.armMotor.setPower(0.0);
-            }
-
+            //apparently you cannot set servos to a negative position. Only 0 through 1
 
 
             shootPower    = Range.clip(shoot, -1.0, 1.0) ;
@@ -127,6 +127,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
             backRightPower    = Range.clip(y+x-rx,-.8,.8);
             backLeftPower     = Range.clip(y-x+rx,-.8,.8);
             liftPower    = Range.clip(lift,-1.0,1.0);
+            armPower = Range.clip(armup-armdown,-.5,.5);
 
 
 
@@ -134,7 +135,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
             // leftPower  = -gamepad1.left_stick_y ;
             // rightPower = -gamepad1.right_stick_y ;
-            if(gamepad2.dpad_left) {
+      /*      if(gamepad2.dpad_left) {
                 robot.liftMotor.setDirection(DcMotor.Direction.FORWARD);
                 robot.liftMotor.setTargetPosition(-3908);
                 robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -178,6 +179,9 @@ public class FirstOpMode_Linear extends LinearOpMode {
                 robot.liftMotor.setDirection(DcMotor.Direction.REVERSE);
             }
 
+            */
+
+
          if(gamepad2.right_bumper){
               robot.intakeMotor.setPower(0.5);
           }
@@ -191,13 +195,13 @@ public class FirstOpMode_Linear extends LinearOpMode {
               robot.loaderServo.setPower(-0.5);
           }
 
-          if(gamepad2.a){
+          if(gamepad2.x){
               robot.loaderServo.setPower(0.0);
           }
 
-
-
-
+          if(gamepad2.a){
+              robot.loaderServo.setPower(0.5);
+          }
 
 
 
@@ -211,6 +215,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
 
             robot.liftMotor.setPower(liftPower);
 
+            robot.armMotor.setPower(armPower);
 
 
             // Show the elapsed game time and wheel power.
@@ -222,6 +227,7 @@ public class FirstOpMode_Linear extends LinearOpMode {
             telemetry.addData("Front Left Motor", "frontLeftMotor", x);
             telemetry.addData("Back Right Motor", "frontLeftMotor", rx);
             telemetry.addData("Front Left Motor", "backLeftMotor", backLeftPower);
+            telemetry.addData("Claw:",robot.clawServo.getPosition());
             telemetry.update();
         }
     }

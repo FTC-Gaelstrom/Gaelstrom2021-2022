@@ -150,7 +150,7 @@ public class RedInside extends LinearOpMode {
         sleep(750);
         robot.shooterMotor.setPower(-1);
         sleep(3000);
-        robot.loaderServo.setPower(.3);
+        robot.loaderServo.setPower(-.5);
         sleep(5000);
         robot.shooterMotor.setPower(0);
         robot.loaderServo .setPower(0);
