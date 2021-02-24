@@ -52,6 +52,7 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="Basic: First Linear OpMode", group="Linear Opmode")
 //@Disabled
 public class FirstOpMode_Linear extends LinearOpMode {
+
     MSJHardware robot   = new MSJHardware();
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -59,6 +60,9 @@ public class FirstOpMode_Linear extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
+        robot.init(hardwareMap);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -74,6 +78,8 @@ public class FirstOpMode_Linear extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            robot.dropperServo.setPosition(.1);
+
             // Setup a variable for each drive wheel to save power level for telemetry
             double shootPower;
             double frontRightPower;
@@ -81,6 +87,8 @@ public class FirstOpMode_Linear extends LinearOpMode {
             double backRightPower;
             double backLeftPower;
             double liftPower;
+            double armPower;
+
 
             // Choose to drive using either Tank Mode, or POV Mode
             // Comment out the method that's not used.  The default below is POV.
@@ -92,21 +100,44 @@ public class FirstOpMode_Linear extends LinearOpMode {
             double x  =  gamepad1.left_stick_x*1.5;
             double rx = gamepad1.right_stick_x;
             double lift = gamepad2.right_stick_y;
+            double armup = gamepad2.left_trigger;
+            double armdown = gamepad2.right_trigger;
+
+
+            if(gamepad1.left_bumper){
+                y*=0.25;
+                x*=0.25;
+                rx*=0.25;
+            }
+
+            if(gamepad2.dpad_up){
+                robot.clawServo.setPosition(0);
+            }
+
+            if(gamepad2.dpad_down){
+                robot.clawServo.setPosition(0.25);
+            }
+
+            //apparently you cannot set servos to a negative position. Only 0 through 1
+
+
             shootPower    = Range.clip(shoot, -1.0, 1.0) ;
-            frontRightPower   = Range.clip(y - x-rx, -1.0, 1.0) ;
-            frontLeftPower    = Range.clip(y+x+rx, -1.0, 1.0);
-            backRightPower    = Range.clip(y+x-rx,-1.0,1.0);
-            backLeftPower     = Range.clip(y-x+rx,-1.0,1.0);
+            frontRightPower   = Range.clip(y - x-rx, -.8, .8);
+            frontLeftPower    = Range.clip(y+x+rx, -.8, .8);
+            backRightPower    = Range.clip(y+x-rx,-.8,.8);
+            backLeftPower     = Range.clip(y-x+rx,-.8,.8);
             liftPower    = Range.clip(lift,-1.0,1.0);
+            armPower = Range.clip(armup-armdown,-.5,.5);
+
+
 
             // Tank Mode uses one stick to control each wheel.
             // - This requires no math, but it is hard to drive forward slowly and keep straight.
             // leftPower  = -gamepad1.left_stick_y ;
             // rightPower = -gamepad1.right_stick_y ;
-            if(gamepad2.dpad_up) {
+      /*      if(gamepad2.dpad_left) {
                 robot.liftMotor.setDirection(DcMotor.Direction.FORWARD);
-                robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.liftMotor.setTargetPosition(2806);
+                robot.liftMotor.setTargetPosition(-3908);
                 robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.liftMotor.setPower(0.5);
                 while(opModeIsActive() && robot.liftMotor.getCurrentPosition() < robot.liftMotor.getTargetPosition())
@@ -116,13 +147,11 @@ public class FirstOpMode_Linear extends LinearOpMode {
                     idle();
                 }
                 robot.liftMotor.setPower(0.0);
-                robot.liftMotor.setDirection(DcMotor.Direction.REVERSE);
                 robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
-          if(gamepad2.dpad_down) {
-             robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+          if(gamepad2.dpad_up) {
              robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-              robot. liftMotor.setTargetPosition(2806);
+              robot. liftMotor.setTargetPosition(-5650);
               robot.liftMotor.setPower(0.5);
               while(opModeIsActive() && robot.liftMotor.getCurrentPosition() < robot.liftMotor.getTargetPosition())
               {
@@ -132,7 +161,49 @@ public class FirstOpMode_Linear extends LinearOpMode {
              }
               robot.liftMotor.setPower(0.0);
               robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+              robot.liftMotor.setDirection(DcMotor.Direction.REVERSE);
           }
+
+            if(gamepad2.dpad_down) {
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot. liftMotor.setTargetPosition(6750);
+                robot.liftMotor.setPower(0.5);
+                while(opModeIsActive() && robot.liftMotor.getCurrentPosition() < robot.liftMotor.getTargetPosition())
+                {
+                    telemetry.addData("encoder-liftmotor", robot.liftMotor.getCurrentPosition());
+                    telemetry.update();
+                    idle();
+                }
+                robot.liftMotor.setPower(0.0);
+                robot.liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.liftMotor.setDirection(DcMotor.Direction.REVERSE);
+            }
+
+            */
+
+
+         if(gamepad2.right_bumper){
+              robot.intakeMotor.setPower(0.5);
+          }
+
+         if(gamepad2.left_bumper){
+              robot.intakeMotor.setPower(0.0);
+          }
+
+
+         if(gamepad2.y){
+              robot.loaderServo.setPower(-0.5);
+          }
+
+          if(gamepad2.x){
+              robot.loaderServo.setPower(0.0);
+          }
+
+          if(gamepad2.a){
+              robot.loaderServo.setPower(0.5);
+          }
+
+
 
             // Send calculated power to wheels
             robot.shooterMotor.setPower(shootPower);
@@ -144,11 +215,19 @@ public class FirstOpMode_Linear extends LinearOpMode {
 
             robot.liftMotor.setPower(liftPower);
 
+            robot.armMotor.setPower(armPower);
+
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Shooter Motor", "shoot (%.2f)", shootPower);
-            telemetry.addData("Lift Motor", "shoot (%.2f)", liftPower);
+            telemetry.addData("Lift Motor", "lift (%.2f)", liftPower);
             telemetry.addData("encoder-liftmotor",robot.liftMotor.getCurrentPosition());
+            telemetry.addData("Front Right Motor", "frontRightMotor", y);
+            telemetry.addData("Front Left Motor", "frontLeftMotor", x);
+            telemetry.addData("Back Right Motor", "frontLeftMotor", rx);
+            telemetry.addData("Front Left Motor", "backLeftMotor", backLeftPower);
+            telemetry.addData("Claw:",robot.clawServo.getPosition());
             telemetry.update();
         }
     }

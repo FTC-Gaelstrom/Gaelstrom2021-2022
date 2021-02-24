@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -15,14 +16,23 @@ public class MSJHardware
     public DcMotor backRightMotor = null;
     public DcMotor backLeftMotor = null;
 
+
     //Create Shooter Motor
     public DcMotor shooterMotor = null;
 
     //Create Lift
     public DcMotor liftMotor = null;
 
-    //Create Loader Servo
-    public Servo loaderServo = null;
+    //Create Servos
+    public Servo dropperServo = null;
+    public CRServo loaderServo = null;
+    public Servo clawServo = null;
+
+    //Intake system motor
+    public DcMotor intakeMotor = null;
+
+    //Arm motor
+    public DcMotor armMotor = null;
 
     //Additional Variables
     HardwareMap hwMap = null;
@@ -49,8 +59,17 @@ public class MSJHardware
 
         //Connect Lift Motor
         liftMotor = hwMap.get(DcMotor.class,"liftMotor");
-        //Connect Loader Servo
-        loaderServo = hwMap.get(Servo.class,"loaderServo");
+        //Connect Servos
+        dropperServo = hwMap.get(Servo.class,"dropperServo");
+        loaderServo = hwMap.get(CRServo.class, "loaderServo");
+        clawServo = hwMap.get(Servo.class,"clawServo");
+
+        //Connect intake Motors
+        intakeMotor = hwMap.get(DcMotor.class, "intakeMotor");
+
+        armMotor = hwMap.get(DcMotor.class, "armMotor");
+
+
 
         //Set Up Motor Direction
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -61,6 +80,9 @@ public class MSJHardware
         shooterMotor.setDirection(DcMotor.Direction.REVERSE);
 
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+        armMotor.setDirection(DcMotor.Direction.REVERSE);
 
 
         //Set Motor Mode  (For now we will run it without an encoder, but when we do stop_and_reset_encoder for each motor and then run_using_encoder for each motor)
@@ -73,6 +95,9 @@ public class MSJHardware
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
       //  liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+        intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         //Set ZERO POWER BEHAVIOR for Drive Train as BRAKE so that the motors stop turning
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -80,6 +105,9 @@ public class MSJHardware
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Set ZERO POWER BEHAVIOR for Shooters as FREESPIN so that the motor continue to spin freely
         shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -91,6 +119,12 @@ public class MSJHardware
         backLeftMotor.setPower(0);
         shooterMotor.setPower(0);
         liftMotor.setPower(0);
+        intakeMotor.setPower(0);
+        armMotor.setPower(0);
+
+
+
+
 
     }
 }
