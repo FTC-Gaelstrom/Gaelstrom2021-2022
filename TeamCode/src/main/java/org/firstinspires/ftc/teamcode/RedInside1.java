@@ -140,11 +140,15 @@ public class RedInside extends LinearOpMode {
         }
 
         robot.liftMotor.setPower(0);
-        encoderDrive(DRIVE_SPEED, 3, 3, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
-        encoderStrafe(DRIVE_SPEED,  -24,  24, 5.0);  // S1: Strafe 24 Inches with 5 Sec timeout
-        encoderDrive(DRIVE_SPEED, 56, 56, 4.0);  // S3: Drive forward 24 Inches with 4 Sec timeout
-        encoderStrafe(DRIVE_SPEED,  22,  -22, 5.0);  // S1: Strafe 24 Inches with 5 Sec timeout
-          encoderDrive(TURN_SPEED,   22, -22, 4.0);  // S2: Turn Left 12 Inches with 4 Sec timeout
+        encoderDrive(DRIVE_SPEED, 12, 12, 4.0);  // S3: Drive forward 12 Inches with 4 Sec timeout\
+        //scan
+        encoderStrafe(DRIVE_SPEED,  -12,  12, 5.0);  // S1: Strafe 12 Inches with 5 Sec timeout
+        //Delivery
+        encoderDrive(DRIVE_SPEED, -12, -12, 4.0);  // S3: Drive backward 12 Inches with 4 Sec timeout
+        encoderStrafe(DRIVE_SPEED,  -24,  24, 5.0);  // S1: Strafe left 24 Inches with 5 Sec timeout
+        //carousel
+          encoderDrive(DRIVE_SPEED,   12, 12, 4.0);  // S2: Drive forward 12 Inches with 4 Sec timeout
+        //Park
 
         robot.shooterMotor.setPower(-0.5);
         sleep(750);
