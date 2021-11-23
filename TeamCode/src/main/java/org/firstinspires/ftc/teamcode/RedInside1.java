@@ -148,7 +148,7 @@ public class RedInside extends LinearOpMode {
         encoderStrafe(DRIVE_SPEED,  -24,  24, 5.0);  // S1: Strafe left 24 Inches with 5 Sec timeout
         //carousel
           encoderDrive(DRIVE_SPEED,   12, 12, 4.0);  // S2: Drive forward 12 Inches with 4 Sec timeout
-        //Park
+        //Park(Storage Unit)
 
         robot.shooterMotor.setPower(-0.5);
         sleep(750);
